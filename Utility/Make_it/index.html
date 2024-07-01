@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make it</title>
+    <!-- Preconnect to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Radio+Canada:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome Icons -->
+    <script src="https://kit.fontawesome.com/d677bec6db.js" crossorigin="anonymous"></script>
+
+    <style>
+        :root {
+            --PrimaryColor: rgb(237, 140, 5);
+            --SecondaryColor: rgb(0, 0, 0);
+            --background1: rgb(255, 255, 255);
+            --background2: rgb(225, 225, 225);
+            --BtnBack: rgba(200, 200, 200, 0.4);
+            --BtnBodyBack1: rgba(255, 255, 255, 0.9);
+            --BtnBodyBack2: rgba(255, 255, 255, 0.5); 
+            --ButtonGridColor: rgb(200, 200, 200);
+            --ButtonGridHover: rgb(150, 150, 150);
+        }
+
+        body {
+            background: linear-gradient(to bottom, var(--background1), var(--background2));
+            margin: 0;
+            height: 100%;
+            font-family: "Radio Canada", sans-serif;
+            font-weight: 400;
+            font-optical-sizing: auto;
+            font-style: normal;
+            color: var(--SecondaryColor);
+            text-align: center;
+            scroll-snap-align: y mandatory;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .header {
+            color: var(--PrimaryColor);
+            font-weight: 600;
+            font-size: 32px;
+            letter-spacing: -1px;
+            line-height: -1px;
+            margin-top: 20px;
+        }
+
+        .download-button-container {
+            display: flex;
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .download-button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            text-decoration: none;
+            border-radius: 5px;
+            white-space: nowrap;
+        }
+
+        .download-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">Make it</div>
+    <div class="download-button-container">
+        <a href="itch://install/?game_id=2440575&upload_id=9411973" target="_blank" class="download-button">
+            Download for MacOS
+        </a>
+        <a href="itch://install/?game_id=2440575&upload_id=9411975" target="_blank" class="download-button">
+            Download for Windows
+        </a>
+        <a href="itch://install/?game_id=2440575&upload_id=9411978" target="_blank" class="download-button">
+            Download for Linux
+        </a>    
+    </div>
+</body>
+</html>

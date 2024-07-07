@@ -113,7 +113,7 @@ p{
         margin-right: 0;
         margin-left: 0;
         margin-bottom: 10px;
-        width: auto;
+        width: 100%;
     }
     .header, .download-button-container {
         margin-left: 0;

@@ -10,20 +10,6 @@
     --ButtonGridHover: rgb(150, 150, 150);
 }
 
-body {
-    background: linear-gradient(to bottom, --background1, --background2);
-    margin: 0;
-    height: 100%;
-    font-family: "Radio Canada", sans-serif;
-    font-weight: 400;
-    font-optical-sizing: auto;
-    font-style: normal;
-    color: var(--SecundaryColor);
-    text-align-last: left;
-    scroll-snap-align: y mandatory;
-    height: 110vh;
-}
-
 .page1{
     scroll-snap-align: start;
     margin-left: 10px;

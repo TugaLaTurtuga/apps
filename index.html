@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, height=device-height initial-scale=1.0">
     <title>Tuga's apps</title>
+    <link rel="icon" href="images/tugalogo.jpg" type="image/jpeg">
 
     <!-- Preconnect to Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,6 +18,7 @@
 
     <!-- External CSS -->
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/body.css">
 </head>
 <body>
     <div class="Hello_Text">Hello world!</div>
@@ -28,8 +30,8 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const subpages = [
-                { name: 'Utility/Make_it', displayText: "Make it" },
-                { name: 'Stutility/Windows_destroyer', displayText: "Windows destroyer" },
+                { name: 'app/Utility/Make_it', displayText: "Make it" },
+                { name: 'app/Stutility/Windows_destroyer', displayText: "Windows destroyer" },
             ];
 
             const gridContainer = document.getElementById('grid-container');
@@ -64,7 +66,7 @@
                 const button = document.createElement('button');
                 button.textContent = 'Learn more';
                 button.onclick = function() {
-                    window.open(subpage.name, '_blank');
+                    window.open(subpage.name + '/index.html', '_blank');
                 };
 
                 buttonContainer.appendChild(button);

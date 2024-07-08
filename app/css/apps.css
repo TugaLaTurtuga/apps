@@ -1,3 +1,4 @@
+
 :root {
     --PrimaryColor: rgb(237, 140, 5);
     --SecondaryColor: rgb(0, 0, 0);
@@ -30,7 +31,7 @@ body {
 .header {
     color: var(--PrimaryColor);
     font-weight: 600;
-    font-size: 32px;
+    font-size: 48px;
     letter-spacing: -1px;
     line-height: -1px;
     margin-top: 20px;
@@ -50,7 +51,7 @@ body {
     margin-bottom: 5px;
     margin-left: 10px;
     margin-right: auto;
-    font-size: 16px;
+    font-size: 18px;
     color: white;
     background-color: #007bff;
     text-decoration: none;
@@ -80,7 +81,7 @@ p{
 .show-icon{
     width: 50%;
     height: auto;
-    border-radius: 20px;
+    border-radius: 10px;
 }
 
 /* Ensuring the show-icon and the adjacent content are laid out properly */
@@ -108,7 +109,7 @@ p{
 }
 
 /* Making sure the elements wrap below the icon on smaller screens */
-@media (max-width: 600px) {
+@media (max-width: 950px) {
     .show-icon {
         margin-right: 0;
         margin-left: 0;

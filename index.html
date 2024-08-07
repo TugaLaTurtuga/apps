@@ -42,6 +42,7 @@
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 const subpages = [
+                    { name: "app/Games/ball-game", displayText: "Ball game"},
                     { name: "app/Utility/Reload", displayText: "Reload" },
                     { name: "app/Utility/Make_it", displayText: "Make it" },
                     {
@@ -57,7 +58,7 @@
                     div.className = "grid-item";
 
                     const img = document.createElement("img");
-                    img.src = subpage.name + "/icon.png";
+                    img.src = subpage.name + "/icon.webp";
                     img.alt = subpage.displayText + " icon";
 
                     const text = document.createElement("div");

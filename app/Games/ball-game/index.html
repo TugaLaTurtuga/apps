@@ -32,7 +32,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 10%;
+            margin: 0;
+            margin-top: 10%;
+            margin-bottom: 10%;
             flex-direction: column;
             font-family: 'Radio Canada', sans-serif;
         }
@@ -552,6 +554,35 @@
         window.onload = function() {
             // No need to initialize leaderboard here anymore
         };
+    </script>
+
+    <!-- Remove download button on mobile -->
+    <script>
+        function adjustDownloadDivVisibility() {
+            const downloadDiv = document.querySelector('.download-div');
+            const body = document.querySelector('body')
+            const aspectRatio = window.innerHeight / window.innerWidth;
+            const thresholdForRemovingDownloadDiv = 1.35;
+            const thresholdForAddMoreMargin = .95;
+
+            if (thresholdForRemovingDownloadDiv < aspectRatio) {
+                downloadDiv.style.display = 'none';
+                body.style.marginTop = '25%'
+            }
+            else if (thresholdForAddMoreMargin < aspectRatio) {
+                downloadDiv.style.display = 'block';
+                body.style.marginTop = '17.5%'
+            }
+            else {
+                downloadDiv.style.display = 'block';
+                body.style.marginTop = '10%'
+            }
+            console.log(aspectRatio)
+        }
+
+        // Adjust visibility on load and on resize
+        window.addEventListener('load', adjustDownloadDivVisibility);
+        window.addEventListener('resize', adjustDownloadDivVisibility);
     </script>
 
     <!-- Website up and down -->

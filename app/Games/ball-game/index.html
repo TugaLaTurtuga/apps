@@ -389,11 +389,28 @@
             let buttonHeight = 50;
             let buttonX = (width - buttonWidth) / 2;
             let buttonY = (height - buttonHeight) / 2;
-            fill(95, 150, 255);
-            let textSizeValue = 32;
-            textSize(textSizeValue);
-            textFont('Radio Canada');
+            let borderRadius = 5;
+
+            // Draw shadow
+            let shadowOffsetX = 0;
+            let shadowOffsetY = 4;
+            let shadowBlur = 8;
+            fill(0, 0, 0, 51); // RGBA: 0, 0, 0, 0.2 -> 51 is 20% of 255
+            noStroke();
+            rect(buttonX + shadowOffsetX, buttonY + shadowOffsetY, buttonWidth, buttonHeight, borderRadius);
+
+            // Draw rounded rectangle button
+            let buttonColor = color(255); // Button background color
+            fill(buttonColor);
+            stroke(buttonColor);
+            stroke(0); // Button border color
+            strokeWeight(2); // Button border width
+            rect(buttonX, buttonY, buttonWidth, buttonHeight, borderRadius);
+
+            // Draw button text
+            textSize(32);
             textAlign(CENTER, CENTER);
+            fill(0); // Text color
             text('Try again', buttonX + buttonWidth / 2, buttonY + buttonHeight / 2);
         }
 

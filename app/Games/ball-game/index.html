@@ -30,7 +30,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100cap;
+            height: auto;
+            width: auto;
             margin: 0;
             flex-direction: column;
             font-family: 'Radio Canada', sans-serif;
@@ -133,6 +134,39 @@
             padding-bottom: 30px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
+
+        #stop-container{
+            display: none;
+            border-radius: 10px;
+            margin-top: -11px;
+            font-size: 24px;
+            font-family: sans-serif;
+            color: red;
+            font-weight: 600;
+            height: 25px;
+            padding-top: 5px;
+            padding-bottom: 3px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .stop-button{
+            width: 100%;
+            height: 150%;
+            padding: 40px;
+            margin-top: -5px;
+            padding-top: 0px;
+            padding-bottom: 0px;
+            font-size: 16px;
+            color: red;
+            background-color: #ffffff;
+            border-width: 0 ;
+            border-color: #ffffff;
+            font-family: sans-serif;
+            font-weight: 600;
+        }
+        .stop-button:hover{
+            background-color: #ffffff;
+            border-color: #ffffff;
+        }
     </style>
 </head>
 <body>
@@ -146,10 +180,9 @@
     <!-- Game Controls -->
     <div class="controls">
         <label for="rows">Rows:</label>
-        <input type="number" id="rows" value="7" min="3" max="12">
+        <input type="number" id="rows" value="7" min="3" max="10" onchange="start()">
         <label for="cols">Cols:</label>
-        <input type="number" id="cols" value="5" min="3" max="12">
-        <button onclick="start()">Start game</button>
+        <input type="number" id="cols" value="5" min="3" max="10" onchange="start()">
         <button onclick="openOrCloseLeaderboard()">Show Leaderboard</button>
     </div>     
 
@@ -170,6 +203,11 @@
         <div id="chossen-leaderboard"></div>
         <div id="leaderboard-list"></div>
         <button onclick="hideLeaderboard()">Close</button>
+    </div>
+
+    <!-- Stop game container (reloads page) -->
+    <div id="stop-container">
+        <button class="stop-button" onclick="location.reload();">Stop</button>
     </div>
 
     <!-- Ads -->
@@ -206,13 +244,17 @@
         let colors = ["#FF5733", "#33FF57", "#3357FF", "#FF33A6", "#A633FF", "#33FFF6", "#F6FF33", "#FF8A33", "#8AFF33", "#33FF99"];
         let leaderboard = [];
         let playerName = 'anonymous';
-        let TimeSrting = ''
-        let leaderboardIsOpen = false
+        let TimeSrting = '';
+        let leaderboardIsOpen = false;
+        let gameStarted = false;
+        let canClick = true;
 
         function start() {
+            gameStarted = true;
             rows = parseInt(document.getElementById('rows').value);
             cols = parseInt(document.getElementById('cols').value);
             document.getElementById("time-container").style.display = 'block';
+            document.getElementById("stop-container").style.display = 'block';
             virtualBoard = [];
             currentNumber = 0;
             finished = false;
@@ -221,44 +263,35 @@
         }
 
         function setup() {
-            let maxSize = 400 + extraMarginTop + 2 * margin;
-
-            if ((rows / cols) >= 1) {
-                let canvasWidth = 400 * (cols / rows);
-                cellSize = (canvasWidth - 2 * margin - padding * (cols + 1)) / cols;
-                extraMarginTop = cellSize;
-                let canvasHeight = canvasWidth * (rows / cols) + extraMarginTop + 2 * margin;
-
-                canvasWidth = min(canvasWidth, maxSize);
-                canvasHeight = min(canvasHeight, maxSize);
-                createCanvas(canvasWidth, canvasHeight);
-            } else {
-                let canvasHeight = 400;
-                cellSize = (canvasHeight - 2 * margin - padding * (rows + 1)) / rows;
-                extraMarginTop = cellSize;
-                let canvasWidth = canvasHeight * (cols / rows) + 2 * margin;
-
-                canvasWidth = min(canvasWidth, maxSize);
-                canvasHeight = min(canvasHeight, maxSize);
-                createCanvas(canvasWidth, canvasHeight);
-            }
-
+            cellSize = 75 - ((cols / 4) + (rows / 2)) * 5;
+            extraMarginTop = cellSize;
+            let canvasWidth = cellSize * (cols + 1) + padding * (cols - 4) - margin;
+            let canvasHeight = cellSize * (rows + 1) + extraMarginTop / 2 + 2 + margin;
+            createCanvas(canvasWidth, canvasHeight);
+            frameRate(244);
             initializeBoard();
             textFont('Radio Canada');
             loop();
         }
 
         function draw() {
+            if (!gameStarted) {
+                background(255);
+                createCanvas(100, 100)
+                textSize(16);
+                textAlign(CENTER, CENTER);
+                fill(0);
+                text('Start Game', width / 2, height / 2);
+                return;
+            }
             drawTimer();
-            if (leaderboardIsOpen == false) {
-                background(255,255,255);
-                drawGrid();
-                drawBalls();
-                drawSelectedBall();
-                if (finished) {
-                    drawRestartButton();
-                    endGame();
-                }
+            background(255);
+            drawGrid();
+            drawBalls();
+            drawSelectedBall();
+            if (finished) {
+                drawRestartButton();
+                endGame();
             }
         }
 
@@ -291,30 +324,39 @@
             strokeWeight(5);
             stroke(0);
             for (let col = 0; col <= cols; col++) {
+                let startY = height - margin;
                 let x = margin + col * (cellSize + padding);
-                line(x, margin + extraMarginTop * 1.5, x, height - margin);
+                line(x, startY, x, startY - cellSize * rows);
             }
         }
 
         function drawBalls() {
             buttonRects = [];
+            let xStart = margin + cellSize / 2 + 2.5;
+            let yStart = margin + extraMarginTop / 1.2 + cellSize;
+
+            // Iterate over columns and rows to draw ellipses
             for (let col = 0; col < cols; col++) {
-                for (let row = 0; row < rows; row++) {
-                    let x = margin + col * (cellSize + padding) + cellSize / 2 + 2.5;
-                    let y = margin + extraMarginTop * 1.5 + row * (cellSize + padding) + cellSize / 2;
-                    let number = virtualBoard[col][rows - 1 - row];
-                    if (number !== 0) {
-                        if (colors[number] === undefined) {
+                let x = xStart + col * (cellSize + padding);
+               for (let row = 0; row < rows; row++) {
+                   let y = yStart + row * (cellSize);
+                   let number = virtualBoard[col][rows - 1 - row];
+
+                   if (number !== 0) {
+                      if (colors[number] === undefined) {
                             colors[number] = color(random(255), random(255), random(255));
                         }
                         fill(colors[number]);
                         ellipse(x, y, cellSize - padding, cellSize - padding);
                     }
                 }
+
+                // Calculate the rectangle corresponding to this column
                 let rectX = margin + col * (cellSize + padding);
                 let rectY = margin + extraMarginTop * 1.5;
                 let rectW = cellSize;
                 let rectH = height - margin * 2 - extraMarginTop * 1.5;
+
                 buttonRects.push(new Rect(rectX, rectY, rectW, rectH));
             }
         }
@@ -348,7 +390,6 @@
             let buttonX = (width - buttonWidth) / 2;
             let buttonY = (height - buttonHeight) / 2;
             fill(95, 150, 255);
-            fill(255);
             let textSizeValue = 32;
             textSize(textSizeValue);
             textFont('Radio Canada');
@@ -357,7 +398,20 @@
         }
 
         function mousePressed() {
-            if (finished) {
+            if (!canClick) {
+                return;
+            }
+            else if (!gameStarted) {
+                let buttonWidth = width;
+                let buttonHeight = height;
+                let buttonX = (width - buttonWidth) / 2;
+                let buttonY = (height - buttonHeight) / 2;
+                if (mouseX >= buttonX && mouseX <= buttonX + buttonWidth && mouseY >= buttonY && mouseY <= buttonY + buttonHeight) {
+                    start();
+                }
+                return;
+            }
+            else if (finished) {
                 let buttonWidth = 200;
                 let buttonHeight = 50;
                 let buttonX = (width - buttonWidth) / 2;
@@ -447,12 +501,19 @@
             leaderboard = JSON.parse(localStorage.getItem(leaderboardKey)) || [];
             document.getElementById('leaderboard').style.display = 'block';
             updateLeaderboardDisplay();
-            leaderboardIsOpen = true
+            leaderboardIsOpen = true;
+            canClick = false;
+            
         }
 
         function hideLeaderboard() {
             document.getElementById('leaderboard').style.display = 'none';
-            leaderboardIsOpen = false
+            leaderboardIsOpen = false;
+
+            // Set canClick to true after 10ms
+            setTimeout(() => {
+                canClick = true;
+            }, 10);
         }
 
         function updateLeaderboardDisplay() {

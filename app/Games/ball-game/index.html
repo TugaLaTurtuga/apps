@@ -12,27 +12,27 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Radio+Canada&amp;display=swap" rel="stylesheet">
+
     <!-- Preconnect to cloudflare -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
 
-    <style>
-        :root {
-            --PrimaryColor: rgb(237, 140, 5);
-            --SecundaryColor: rgb(50, 50, 50);
-            --background1: rgb(255,255,255);
-            --background2: rgb(225,225,225);
-            --BtnBack: rgb(50,50,50);
-            --BtnBodyBack1: rgb(245,245,245);
-            --BtnBodyBack2: rgb(225,225,225); 
-        }
+    <!-- FontAwesome Icons -->
+    <script src="https://kit.fontawesome.com/d677bec6db.js" crossorigin="anonymous"></script>
+    <!-- External CSS -->
+    <link rel="stylesheet" href="../../../css/style.css">
 
+    <style>
+
+        :root {
+            --terciaryColor: rgb(50, 50, 50);
+            --btnColor: rgb(255);
+            --btnColorOnHover: rgb(225);
+        }
         body {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: auto;
-            width: auto;
-            margin: 0;
+            margin: 10%;
             flex-direction: column;
             font-family: 'Radio Canada', sans-serif;
         }
@@ -47,7 +47,7 @@
             margin: 30px;
             text-align: center;
         }
-        .download-div{
+        .download-div {
             margin-bottom: 10px;
         }
         .controls {
@@ -57,29 +57,29 @@
             font-family: 'Radio Canada', sans-serif;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-        button{
+        button {
             border-radius: 5px;
             padding: 5px;
             border-color: var(--PrimaryColor);
-            background-color: var(--BtnBodyBack1);
+            background-color: var(--btnColor);
             color: black;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         button:hover{
-            border-color: var(--SecundaryColor);
-            background-color: var(--BtnBodyBack2);
+            border-color: var(--terciaryColor);
+            background-color: var(--btnColorOnHover);
         }
         input{
             padding: 10px;
             margin-right: 10px;
             border-radius: 5px;
-            border-color: var(--SecundaryColor);
-            background-color: var(--BtnBodyBack1);
+            border-color: var(--terciaryColor);
+            background-color: var(--btnColor);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2)
         }
         input:hover{
             border-color: var(--PrimaryColor);
-            background-color: var(--BtnBodyBack2);
+            background-color: var(--btnColorOnHover);
         }
         .input-text{
             padding: 10px;
@@ -100,8 +100,8 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         #chossen-leaderboard {
-            margin-top: -28px;
-            color: var(--BtnBack);
+            margin-top: -37px;
+            color: var(--terciaryColor);
             font-size: 12px;
             text-align: center;
             text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -210,22 +210,7 @@
         <button class="stop-button" onclick="location.reload();">Stop</button>
     </div>
 
-    <!-- Ads -->
-    <div class="ads">
-        <script 
-            async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1113318967174224"
-            crossorigin="anonymous">
-        </script>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1234567890123456" crossorigin="anonymous"></script>
-        <!-- Homepage Leaderboard -->
-        <ins class="adsbygoogle"
-        style="display:inline-block;width:728px;height:90px"
-        data-ad-client="ca-pub-1234567890123456"
-        data-ad-slot="1234567890"></ins>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-    </div>
+    <!-- Ads, couldn't add -->
 
     <!-- Game code -->
     <script>
@@ -247,6 +232,7 @@
         let TimeSrting = '';
         let leaderboardIsOpen = false;
         let gameStarted = false;
+        let drawnedStartGameCanvas = false;
         let canClick = true;
 
         function start() {
@@ -276,12 +262,15 @@
 
         function draw() {
             if (!gameStarted) {
-                background(255);
-                createCanvas(100, 100)
-                textSize(16);
-                textAlign(CENTER, CENTER);
-                fill(0);
-                text('Start Game', width / 2, height / 2);
+                if (!drawnedStartGameCanvas) {
+                    background(255);
+                    createCanvas(100, 100)
+                    textSize(16);
+                    textAlign(CENTER, CENTER);
+                    fill(0);
+                    text('Start Game', width / 2, height / 2);
+                    drawnedStartGameCanvas = true
+                }
                 return;
             }
             drawTimer();
@@ -389,7 +378,7 @@
             let buttonHeight = 50;
             let buttonX = (width - buttonWidth) / 2;
             let buttonY = (height - buttonHeight) / 2;
-            let borderRadius = 5;
+            let borderRadius = 20;
 
             // Draw shadow
             let shadowOffsetX = 0;
@@ -403,13 +392,13 @@
             let buttonColor = color(255); // Button background color
             fill(buttonColor);
             stroke(buttonColor);
-            stroke(0); // Button border color
-            strokeWeight(2); // Button border width
+            strokeWeight(0); // Button border width
             rect(buttonX, buttonY, buttonWidth, buttonHeight, borderRadius);
 
             // Draw button text
             textSize(32);
             textAlign(CENTER, CENTER);
+            textStyle(BOLD)
             fill(0); // Text color
             text('Try again', buttonX + buttonWidth / 2, buttonY + buttonHeight / 2);
         }
@@ -564,5 +553,45 @@
             // No need to initialize leaderboard here anymore
         };
     </script>
+
+    <!-- Website up and down -->
+    <div class="footer">
+        <a href="https://tugalaturtuga.github.io/home/" target="_self" class="othersimage">
+            <i class="fa-solid fa-house"></i>
+        </a>
+
+        <a href="https://www.youtube.com/@OverrratedChannel" target="_blank" title="youtube channel" class="othersimage">
+        <i class="fa-brands fa-youtube"></i>
+        </a>
+        <a href="https://github.com/TugaLaTurtuga" target="_blank" class="othersimage">
+            <i class="fa-brands fa-github"></i>
+        </a>
+
+        <a href="https://tugalaturtuga.itch.io/" target="_blank" class="othersimage">
+            <i class="fa-brands fa-itch-io"></i>
+        </a>
+
+        <div class="dropdown">
+            <i class="fa-solid fa-sliders"></i>
+        </div>
+    </div>
+
+    <div class="UpBtns">        
+        <a href="mailto:tugalaturtuga@gmail.com" target="_blank" class="BlogBtn">
+            <span class="text">Email me!</span>
+            <div class="overlay"></div>
+        </a>
+
+        <a href="https://tugalaturtuga.github.io/apps/" target="_self" class="BlogBtn">
+            <span class="text">Apps</span>
+            <div class="overlay"></div>
+        </a>
+
+        <a href="https://tugalaturtuga.github.io/blog/" target="_self" class="BlogBtn">
+            <span class="text">Blogs</span>
+            <div class="overlay"></div>
+        </a>
+        <img src="../../../images/tugalogo.jpg" alt="Logo" class="tugalogo">
+    </div>
 </body>
 </html>

@@ -26,6 +26,10 @@ let SavingUrl = new URL('https://66b4edb79f9169621ea4e564.mockapi.io/api/leaderb
             gameStarted = true;
             rows = parseInt(document.getElementById('rows').value);
             cols = parseInt(document.getElementById('cols').value);
+            if (rows < 3) {rows = 3}
+            else if (rows > 10) {rows = 10}
+            if (cols < 3) {cols = 3}
+            else if (cols > 10) {cols = 10}
             document.getElementById("time-container").style.display = 'block';
             document.getElementById("stop-container").style.display = 'block';
             virtualBoard = [];
@@ -458,5 +462,5 @@ let SavingUrl = new URL('https://66b4edb79f9169621ea4e564.mockapi.io/api/leaderb
 
         // Load leaderboard from local storage on page load
         window.onload = function() {
-            // No need to initialize leaderboard here anymore
+            // No need to initialize leaderboard here
         };

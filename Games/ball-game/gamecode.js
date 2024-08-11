@@ -30,6 +30,9 @@ let SavingUrl = new URL('https://66b4edb79f9169621ea4e564.mockapi.io/api/leaderb
             else if (rows > 10) {rows = 10}
             if (cols < 3) {cols = 3}
             else if (cols > 10) {cols = 10}
+            document.getElementById('rows').value = rows
+            document.getElementById('cols').value = cols
+
             document.getElementById("time-container").style.display = 'block';
             document.getElementById("stop-container").style.display = 'block';
             virtualBoard = [];

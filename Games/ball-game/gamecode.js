@@ -26,10 +26,13 @@ let SavingUrl = new URL('https://66b4edb79f9169621ea4e564.mockapi.io/api/leaderb
             gameStarted = true;
             rows = parseInt(document.getElementById('rows').value);
             cols = parseInt(document.getElementById('cols').value);
+            console.log(rows)
             if (rows < 3) {rows = 3}
             else if (rows > 10) {rows = 10}
+            else if (isNaN(rows)) {rows = 7}
             if (cols < 3) {cols = 3}
             else if (cols > 10) {cols = 10}
+            else if (isNaN(cols)) {cols = 5}
             document.getElementById('rows').value = rows
             document.getElementById('cols').value = cols
 

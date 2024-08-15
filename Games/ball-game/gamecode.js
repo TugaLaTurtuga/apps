@@ -20,21 +20,25 @@ let drawnedStartGameCanvas = false;
 let canClick = true;
 let globalOrLocal = true;
 let highlightLastPressed = true;
+let Clicks = 0;
 let SavingUrl = new URL('https://66b4edb79f9169621ea4e564.mockapi.io/api/leaderboars/leaderboards')
 
         function start() {
             gameStarted = true;
             rows = parseInt(document.getElementById('rows').value);
             cols = parseInt(document.getElementById('cols').value);
-            console.log(rows)
+
             if (rows < 3) {rows = 3}
             else if (rows > 10) {rows = 10}
             else if (isNaN(rows)) {rows = 7}
+
             if (cols < 3) {cols = 3}
             else if (cols > 10) {cols = 10}
             else if (isNaN(cols)) {cols = 5}
-            document.getElementById('rows').value = rows
-            document.getElementById('cols').value = cols
+
+            document.getElementById('rows').value = rows;
+            document.getElementById('cols').value = cols;
+            Clicks = 0;
 
             document.getElementById("time-container").style.display = 'block';
             document.getElementById("stop-container").style.display = 'block';
@@ -168,6 +172,10 @@ let SavingUrl = new URL('https://66b4edb79f9169621ea4e564.mockapi.io/api/leaderb
 
             let timercontainer = document.getElementById("time-container");
             timercontainer.innerHTML = `<h3>[Time: ${TimeSrting}]</h3>`;
+
+            // Draws the number of clicks
+            let clickscontainer = document.getElementById("stop-container");
+            clickscontainer.innerHTML = `<h3>Clicks: ${Clicks}</h3>`;
         }
 
         function drawRestartButton() {
@@ -237,7 +245,7 @@ let SavingUrl = new URL('https://66b4edb79f9169621ea4e564.mockapi.io/api/leaderb
                                 if (startTime === null) {
                                     startTime = millis();
                                 }
-                                
+                                Clicks++;
                                 break;
                             }
                         }
@@ -248,6 +256,7 @@ let SavingUrl = new URL('https://66b4edb79f9169621ea4e564.mockapi.io/api/leaderb
                                 virtualBoard[col][row] = currentNumber;
                                 currentNumber = 0;
                                 checkWinCondition();
+                                Clicks++;
                                 break;
                             }
                         }
@@ -434,12 +443,12 @@ let SavingUrl = new URL('https://66b4edb79f9169621ea4e564.mockapi.io/api/leaderb
                 leaderboard = [{name: 'No time has been set', score: ''}];
             }
 
-            let numberOfEntrys = 0;
+            let numberOfEntrys = 1;
             leaderboard.forEach(entry => {
-                if (numberOfEntrys < 10) {
+                if (numberOfEntrys <= 10) {
                     let entryDiv = document.createElement('div');
                     if (entry.score != '') {
-                        entryDiv.textContent = `${entry.name}: ${entry.score}`;
+                        entryDiv.textContent = `${numberOfEntrys}º - ${entry.name}: ${entry.score}`;
                     }
                     else {
                         entryDiv.textContent = `${entry.name}`; 

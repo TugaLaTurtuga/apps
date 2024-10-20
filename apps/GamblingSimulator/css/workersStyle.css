@@ -193,3 +193,7 @@ h3 {
     font-size: 22px;
     font-weight: 900;
 }
+
+#stats p {
+    color: #ccc;
+}

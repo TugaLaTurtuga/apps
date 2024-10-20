@@ -11,11 +11,11 @@
 </head>
 <body>
     <div class="money-count">
-        <p id="money-count">Money: $0</p>
+        <p id="money-count">Money: $0.00</p>
     </div>
 
     <img src="Images/Center.png" alt="Logo" class="top-right-icon" id="GCLogo"/>
-    <h1>Work in progress</h1>    
+    <h1>Work in progress</h1>
     <div class="game-container" id="job-clicker-section">
         
         <div class="clicker-section" id="clicker-section" style="display: block;">
@@ -72,10 +72,21 @@
         <p id="salariesPer">Salaries: $NaN per ---s</p>
     </div>
 
-    <script src="MoneyScript.js"></script>
-    <script src="AllGames.js"></script>
-    <script src="GamesScript.js"></script>
-    <script src="script.js"></script>
-    <script src="css/UpdateSliderCode.js"></script>
+    <div id="stats">
+        <!-- Stats will be put here by JavaScript -->
+    </div>
+
+    <h2 style="
+    color: red;
+    font-size: 22px;
+    font-weight: 900;">
+    You may encounter problems with the saving system, please download gameData ever possible (ctrl + shift + d) and then to load the gameData (ctrl + shift + u)</h2>
+    <input type="file" id="fileInput" style="display:block;" />
+
+    <script src="js/AllGames.js"></script>
+    <script src="js/MoneyScript.js"></script>
+    <script src="js/GamesScript.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/UpdateSliderCode.js"></script>
 </body>
 </html>

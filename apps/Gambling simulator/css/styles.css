@@ -1,15 +1,12 @@
 body {
     font-family: Arial, sans-serif;
+    background-color: #000000;
     background: linear-gradient(to bottom, #01222b, #011219); /* Gradient from black-gray to black */
     margin: 0;
     text-align: center;
     overflow-x: hidden;
     padding: 20px;
     min-height: 100vmin;
-}
-
-.p {
-    color: #87cefa;
 }
 
 #seeWorkers {

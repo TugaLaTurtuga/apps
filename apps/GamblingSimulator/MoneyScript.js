@@ -67,7 +67,7 @@ function takeLoan(amount, time, interest) {
     const totalLoanValue = amount + (amount * (interest / 100)); // Total loan + interest
     const monthlyPayment = totalLoanValue / time; // Monthly payment to pay off over the specified period
 
-    document.getElementById("loansPer").innerText = `Loans: -$${monthlyPayment} per ${TimeToPayLoans}s`
+    document.getElementById("loansPer").innerText = `Loans: -$${monthlyPayment.toFixed(2)} per ${TimeToPayLoans}s`
     loanInterval = setInterval(() => {
         TimeUntilPayingLoans++;
         

@@ -13,7 +13,7 @@ function playGame(game, level, gameButton) {
         addMoney(winnings);
         PrizeMoney = winnings;
         wonOrLost = true;
-        
+       
     } else {
         wonOrLost = false;
     }
@@ -148,6 +148,10 @@ function displayResult(win, winnings) {
         // Randomly select a message from the array
         const randomIndex = Math.floor(Math.random() * addictionMessages.length);
         result = addictionMessages[randomIndex];
+
+        if (playerBalance < 0) {
+            takeLoan(playerBalance * -1.2, 12, 4);
+        }
     }
 
     const waitTime = result.length * 60; // Adjust wait time based on result length

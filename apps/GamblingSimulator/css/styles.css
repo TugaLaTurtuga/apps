@@ -45,6 +45,11 @@ body {
     box-sizing: border-box; /* Include padding in the width calculation */
 }
 
+/* WebKit browsers (Chrome, Safari) */
+.game-container::-webkit-slider-runnable-track {
+    min-height: 120vh;
+}
+
 /* Ensure the container is bigger than its content */
 .game-container > * {
     max-width: 100%;
@@ -151,7 +156,7 @@ body:hover::before {
 
 .earnMoney {
     margin: 0 10px;
-    width: 40%;
+    width: 80%;
     height: 40%;
     padding: 10px 20px;
     font-size: 16px;
@@ -247,8 +252,8 @@ body:hover::before {
     left: 50%;
     transform: translateX(-50%);
 
-    width: auto;
-    max-width: 75%;
+    width: 300px;
+    max-width: 90%;
     height: 40px;
 
     opacity: 0;

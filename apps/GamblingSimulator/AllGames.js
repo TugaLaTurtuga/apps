@@ -5,10 +5,10 @@ const games = {
             cost: 50, 
             prizeRange: [100, 500], 
             description: "Play poker and try your luck!", 
-            chance: 0.5, 
+            chance: 1, 
             cooldown: 1, 
             playingTime: 0,
-            changeOfGettingAddicted: 0.1, // chance of getting addicted
+            changeOfGettingAddicted: 1, // chance of getting addicted
             lossOfGettingAddicted: [5, 15] // times the cost
         },
         { 

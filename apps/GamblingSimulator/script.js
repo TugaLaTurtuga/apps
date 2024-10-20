@@ -1,14 +1,34 @@
 let incomePerSecond = 0;
 let clickPower = 1;
 let IsPayingsalaries = false;
+const sw = document.getElementById("seeWorkers");
+const gameContainer = document.getElementById("job-clicker-section");
 
 // Updates money and job shop section
 window.onload = () => {
-    
     updateBalance();
     createJobShop();
     createGamesSection();
     startPassiveIncome();
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'm') {
+            window.scrollTo(0, 50);
+            if (IsSeingWorkers) {
+                document.getElementById("clicker-section").style.display = "block";
+                document.getElementById("Workers-section").style.display = "none";
+                sw.innerText = 'See Workers';
+                gameContainer.style.height = "auto";
+                IsSeingWorkers = false;
+            } else {
+                document.getElementById("clicker-section").style.display = "none";
+                document.getElementById("Workers-section").style.display = "block";
+                sw.innerText = 'See Jobs';
+                gameContainer.style.height = "auto";
+                IsSeingWorkers = true;
+            }
+        }
+    });
 };
 
 // Clicking to earn money
@@ -82,11 +102,10 @@ function calculatePerformance() {
 
 let IsSeingWorkers = false;
 function seeWorkersBtn() {
-    const sw = document.getElementById("seeWorkers");
     sw.style.display = "block";
-    const gameContainer = document.getElementById("job-clicker-section");
     gameContainer.style.height = "auto";
     document.getElementById("seeWorkers").onclick = () => { 
+        window.scrollTo(0, 50);
         if (IsSeingWorkers) {
             document.getElementById("clicker-section").style.display = "block";
             document.getElementById("Workers-section").style.display = "none";
@@ -120,7 +139,7 @@ function calculateTotalSalary() {
         totalSalary += Count[job] * jobSalary[job];
     }
 
-    document.getElementById("salariesPer").innerText = `Salaries: $${totalSalary} per ${TimeToPaySalaries}s`;
+    document.getElementById("salariesPer").innerText = `Salaries: $${totalSalary.toFixed(2)} per ${TimeToPaySalaries}s`;
 
     return totalSalary; // Total salary to be paid each cycle
 }

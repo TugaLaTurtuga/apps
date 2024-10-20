@@ -4,7 +4,7 @@ let IsPayingsalaries = false;
 
 // Updates money and job shop section
 window.onload = () => {
-    document.getElementById("job-clicker-section").style.height = "auto";
+    
     updateBalance();
     createJobShop();
     createGamesSection();

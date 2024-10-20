@@ -34,7 +34,7 @@ body {
     margin: 0 auto;
     background-color: #023b4a6e;
     padding: 20px;
-    min-height: 80vh;
+    min-height: 100vh;
     border-radius: 10px;
     border: solid #01222b 1px; /* Fixed the border syntax */
     box-shadow: 10px 8px 6px rgba(0, 0, 0, 0.086);
@@ -114,10 +114,12 @@ h1 {
     cursor: pointer;
     border-radius: 5px;
     font-size: 14px;
+    color: #000000;
 }
 
 .game-card button:hover {
     background-color: #015261;
+    color: #000000;
 }
 
 .game-card button:disabled {
@@ -224,7 +226,7 @@ body:hover::before {
     }
 
     .game-container {
-        min-height: 134vh;
+        min-height: 150vh;
     }
 }
 

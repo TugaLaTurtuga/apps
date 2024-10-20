@@ -181,6 +181,7 @@ h3 {
     z-index: 1;
 
     width: 400px;
+    max-width: 90%;
     height: 40px;
 
     left: 50%; /* Positions it from the center of the screen */

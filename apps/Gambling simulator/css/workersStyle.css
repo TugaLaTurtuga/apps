@@ -12,6 +12,7 @@
     text-align: center;
     max-width: 250px;
     transition: transform 0.3s ease;
+    color: #000000;
 }
 
 .worker-card:hover {
@@ -41,6 +42,7 @@
     cursor: pointer;
     border-radius: 5px;
     font-size: 14px;
+    color: #000000;
 }
 
 .worker-card button:hover {

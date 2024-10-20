@@ -21,10 +21,12 @@ let canClick = true;
 let globalOrLocal = true;
 let highlightLastPressed = true;
 let Clicks = 0;
+let TimerColor = 0 // 0 = auto, 1 = purple, 2 = green, 3 = yellow, 4 = red
 let SavingUrl = new URL('https://66b4edb79f9169621ea4e564.mockapi.io/api/leaderboars/leaderboards')
 
         function start() {
             gameStarted = true;
+            document.getElementById("time-container").style.color = 'auto'
             rows = parseInt(document.getElementById('rows').value);
             cols = parseInt(document.getElementById('cols').value);
 
@@ -46,6 +48,7 @@ let SavingUrl = new URL('https://66b4edb79f9169621ea4e564.mockapi.io/api/leaderb
             currentNumber = 0;
             finished = false;
             startTime = null;
+            TimerColor = 0;
             setup();
         }
 
@@ -285,6 +288,7 @@ let SavingUrl = new URL('https://66b4edb79f9169621ea4e564.mockapi.io/api/leaderb
 
         function endGame() {
             if (finished) {
+                TimerColor = 0;
                 let leaderboardKey = `leaderboard_${rows}_${cols}`;
                 let playerName = document.getElementById('player-name').value.trim() || 'anonymous';
                 let score = parseFloat(TimeSrting);
@@ -295,6 +299,16 @@ let SavingUrl = new URL('https://66b4edb79f9169621ea4e564.mockapi.io/api/leaderb
                 localLeaderboard.sort((a, b) => a.score - b.score);
                 localLeaderboard = localLeaderboard.slice(0, 9);
                 localStorage.setItem(leaderboardKey, JSON.stringify(localLeaderboard));
+
+                if (localLeaderboard[0].score == score) {
+                    TimerColor = 2;
+                }
+                else if (localLeaderboard[localLeaderboard.length - 1].score < score) {
+                    TimerColor = 4;
+                }
+                else {
+                    TimerColor = 3;
+                }
         
                 // Prepare new entry for global leaderboard
                 let RowsAndsCols = [rows, cols] 
@@ -321,6 +335,10 @@ let SavingUrl = new URL('https://66b4edb79f9169621ea4e564.mockapi.io/api/leaderb
                     globalData.sort((a, b) => a.score - b.score); // Sort by score
                     globalData.slice(0, 9)
 
+                    if (globalData[0].score == newEntry.score) {
+                        TimerColor = 1; // World record
+                    }
+
                     // Check if the new entry is in the top 10
                     const isInTop10 = globalData.some(entry => entry.name === newEntry.name && entry.score === newEntry.score);
                     if (isInTop10) {
@@ -341,8 +359,24 @@ let SavingUrl = new URL('https://66b4edb79f9169621ea4e564.mockapi.io/api/leaderb
                         });
                 }
                 })
-
-                
+            }
+            let timercontainer = document.getElementById("time-container");
+            switch(TimerColor) {
+                case 0:
+                    timercontainer.style.color = 'auto';
+                    break;
+                case 1:
+                    timercontainer.style.color = 'purple';
+                    break;
+                case 2:
+                    timercontainer.style.color = 'green';
+                    break;
+                case 3:
+                    timercontainer.style.color = 'yellow';
+                    break;
+                case 4:
+                    timercontainer.style.color = 'red';
+                    break;
             }
         }
      

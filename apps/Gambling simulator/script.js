@@ -4,6 +4,7 @@ let IsPayingsalaries = false;
 
 // Updates money and job shop section
 window.onload = () => {
+    document.getElementById("job-clicker-section").style.height = "auto";
     updateBalance();
     createJobShop();
     createGamesSection();
@@ -84,13 +85,13 @@ function seeWorkersBtn() {
     const sw = document.getElementById("seeWorkers");
     sw.style.display = "block";
     const gameContainer = document.getElementById("job-clicker-section");
-    gameContainer.style.height = "85vh";
+    gameContainer.style.height = "auto";
     document.getElementById("seeWorkers").onclick = () => { 
         if (IsSeingWorkers) {
             document.getElementById("clicker-section").style.display = "block";
             document.getElementById("Workers-section").style.display = "none";
             sw.innerText = 'See Workers';
-            gameContainer.style.height = "85vh";
+            gameContainer.style.height = "auto";
             IsSeingWorkers = false;
         } else {
             document.getElementById("clicker-section").style.display = "none";

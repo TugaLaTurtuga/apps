@@ -3,6 +3,7 @@ body {
     background-color: #000000;
     background: linear-gradient(to bottom, #01222b, #011219); /* Gradient from black-gray to black */
     margin: 0;
+    justify-content: center;
     text-align: center;
     overflow-x: hidden;
     padding: 20px;
@@ -43,11 +44,6 @@ body {
     margin-bottom: 20px;
     width: 100%; /* Ensure the container takes full width */
     box-sizing: border-box; /* Include padding in the width calculation */
-}
-
-/* WebKit browsers (Chrome, Safari) */
-.game-container::-webkit-slider-runnable-track {
-    min-height: 120vh;
 }
 
 /* Ensure the container is bigger than its content */

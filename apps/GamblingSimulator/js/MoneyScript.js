@@ -4,7 +4,8 @@ let totalLoansValue = 0;
 let payingLoan = false;
 let loanInterval;
 let totalLoanValue = 0;
-let remainingTime = 0; // Time left to pay off the loan
+let remainingTime = 0;
+let loanInterest = 0;
 
 // Update the displayed balance in both sections
 function updateBalance() {
@@ -60,6 +61,7 @@ function takeLoan(amount, time, interest) {
     remainingTime = time; // Save the time remaining for the loan
 
     document.getElementById("loansPer").innerText = `Loans: -$${monthlyPayment.toFixed(2)} per ${TimeToPayLoans}s`;
+    loanInterest = interest;
     
     loanInterval = setInterval(() => {
         TimeUntilPayingLoans++;
@@ -107,8 +109,6 @@ function saveGameData() {
         totalMoneyGambled: totalMoneyGambled,
         totalMoneyWonOnGambling: totalMoneyWonOnGambling
     };
-
-    console.log(JSON.stringify(gameData));
     localStorage.setItem('gameData', JSON.stringify(gameData));
     displayGameData(gameData); // Call displayGameData with gameData after saving
 }
@@ -126,6 +126,7 @@ function loadGameData(loadData = true) {
     if (!savedData) {
         console.log("No saved game data found, starting a new game.");
         initializeDefaultValues();
+        playerBalance = 0;
         return;
     }
 
@@ -223,7 +224,7 @@ function updateGameData(gameData) {
     updateBalance();
 
     // Restart loan payment system if a loan is active
-    if (gameData.loanIntervalActive && payingLoan && remainingTime > 0) {
+    if (payingLoan) {
         takeLoan(totalLoanValue / (1 + (loanInterest / 100)), remainingTime, loanInterest); // Use saved loan values
     }
 }
@@ -259,6 +260,27 @@ function displayGameData(gameData) {
             }
         }
     }
+    // Button to download game data
+    const downloadGameDataBtn = document.createElement('button');
+    downloadGameDataBtn.id = "btn"
+    downloadGameDataBtn.innerText = 'Download Game Data';
+    downloadGameDataBtn.onclick = () => downloadGameData(); // Set click event to trigger the download
+
+    // Button to trigger file input for uploading game data
+    const fileInputBtn = document.createElement('button');
+    fileInputBtn.id = "btn"
+    fileInputBtn.innerText = 'Upload Game Data';
+    fileInputBtn.onclick = () => fileInput.click(); // Set click event to trigger file input
+
+    // Button to delete game data
+    const deleteGameDataBtn = document.createElement('button');
+    deleteGameDataBtn.id = "btn"
+    deleteGameDataBtn.innerText = 'Delete Game Data';
+    deleteGameDataBtn.onclick = () => loadGameData(false); // Set click event to delete game data
+
+    statsDiv.appendChild(downloadGameDataBtn);
+    statsDiv.appendChild(fileInputBtn);
+    statsDiv.appendChild(deleteGameDataBtn);
 }
 
 function isDigit(value) {

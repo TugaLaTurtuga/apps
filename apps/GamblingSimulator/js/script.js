@@ -1,32 +1,17 @@
 let incomePerSecond = 0;
 let clickPower = 1;
 let IsPayingsalaries = false;
-const sw = document.getElementById("seeWorkers");
-const gameContainer = document.getElementById("job-clicker-section");
 
 // Updates money and job shop section
 window.onload = () => {
     createJobShop();
     createGamesSection();
     startPassiveIncome();
+    calculatePerformance();
+    calculateTotalSalary();
 
     document.addEventListener('keydown', function(event) {
-        if (event.key === 'm') {
-            window.scrollTo(0, 50);
-            if (IsSeingWorkers) {
-                document.getElementById("clicker-section").style.display = "block";
-                document.getElementById("Workers-section").style.display = "none";
-                sw.innerText = 'See Workers';
-                gameContainer.style.height = "auto";
-                IsSeingWorkers = false;
-            } else {
-                document.getElementById("clicker-section").style.display = "none";
-                document.getElementById("Workers-section").style.display = "block";
-                sw.innerText = 'See Jobs';
-                gameContainer.style.height = "auto";
-                IsSeingWorkers = true;
-            }
-        }
+        seeWorkersBtn();
     });
 };
 
@@ -82,6 +67,7 @@ function updateIncome() {
     }
 }
 
+const sw = document.getElementById("seeWorkers");
 // Calculate performance based on salary
 function calculatePerformance() {
     for (let job in jobSalary) {
@@ -95,6 +81,8 @@ function calculatePerformance() {
         const roleCount = document.getElementById(`Amount of workers in ${job}`);
         if (roleCount) {
             roleCount.innerText = `Workers: ${Count[job]}`;
+        } if (Count[job] > 0) {
+            sw.style.display = "block";
         }
     }
     updateIncome();  // Recalculate income based on new performance values
@@ -102,6 +90,8 @@ function calculatePerformance() {
 
 let IsSeingWorkers = false;
 function seeWorkersBtn() {
+    const gameContainer = document.getElementById("job-clicker-section");
+
     sw.style.display = "block";
     gameContainer.style.height = "auto";
     document.getElementById("seeWorkers").onclick = () => { 

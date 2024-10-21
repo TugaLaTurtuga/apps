@@ -120,8 +120,9 @@ h3 {
 .top-right-icon {
     top: 0;
     right: 0;
-    height: 7.5%;
-    width: 7.5%;
+    width: 10%;
+    min-width: 64px;
+    aspect-ratio: 1;
     border-radius: 50%;
 }
 
@@ -184,8 +185,8 @@ h3 {
     max-width: 90%;
     height: 40px;
 
-    left: 50%; /* Positions it from the center of the screen */
-    transform: translateX(-50%); /* Correctly centers it horizontally */
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .bottom-info p{
@@ -195,5 +196,43 @@ h3 {
 }
 
 #stats p {
+    padding-left: 15px;
+    text-align: left;
     color: #ccc;
+}
+
+#stats {
+    position: relative;
+    margin-top: 20px;
+    align-items: center;
+    justify-content: center; 
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    background-color: #01222b19;
+    color: #f8f8f8;
+    border: 1px solid #f8f8f8;
+    z-index: 1;
+
+    width: 450px;
+    max-width: 95%;
+    height: auto;
+
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#btn {
+    padding: 5px;
+    margin: 5px;
+    background-color: #017285;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #000000;
+}
+
+#btn:hover {
+    background-color: #015261;
 }

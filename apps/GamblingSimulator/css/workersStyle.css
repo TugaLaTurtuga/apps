@@ -299,16 +299,15 @@ h3 {
     z-index: 1;
     transition: background-color 0.3s, color 0.3s;
     box-shadow: none;
+    color: rgb(0, 0, 0);
 }
 
 .Globalbutton:hover {
     background-color: #01121973; /* Light color on hover */
-    color: rgb(0, 0, 0); /* Darker text color on hover */
 }
 
 .Globalbutton.highlight {
     background-color: #01121948; /* Highlight color */
-    color: rgb(0, 0, 0); /* Highlight text color */
 }
 
 .Globalseparator {
@@ -316,7 +315,6 @@ h3 {
     font-family: 'Radio Canada', sans-serif;
     line-height: 1;
     padding: 0 0;
-    color: rgb(0, 0, 0); /* Default color of the separator */
     background-color: #023c4a;
 }
 
@@ -326,6 +324,7 @@ h3 {
     bottom: 0px;
     padding: 5px;
     background-color: rgba(255, 0, 0, 1);
+    color: rgb(0, 0, 0);
     font-weight: 800;
     
     border: solid black 2px;

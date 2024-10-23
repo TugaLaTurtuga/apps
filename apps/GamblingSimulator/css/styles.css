@@ -35,7 +35,6 @@ body {
     margin: 0 auto;
     background-color: #023b4a6e;
     padding: 20px;
-    min-height: 100vh;
     border-radius: 10px;
     border: solid #01222b 1px; /* Fixed the border syntax */
     box-shadow: 10px 8px 6px rgba(0, 0, 0, 0.086);
@@ -202,8 +201,104 @@ body:hover::before {
     padding: 20px;
 }
 
+.opts-grid {
+    display: grid;
+    margin-top: -10px;
+    grid-template-columns: repeat(2, 1fr); /* Create two equal-width columns */
+    grid-template-rows: repeat(2, auto); /* Create two rows for a 2x2 grid */
+    gap: 20px; /* Space between the cards */
+    justify-items: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+    width: 100%;
+    margin: 0 auto; /* Center the grid horizontally */
+    padding: 20px;
+    box-sizing: border-box; /* Ensure padding is included in the width */
+}
+
+.opts-card {
+    height: 95%;
+    min-width: 90%;
+    background-color: #01222b;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 30px;
+    margin-top: -10px;
+    box-shadow: 0 8px 6px rgba(0, 0, 0, 0.305);
+    text-align: center;
+    max-width: 250px;
+    transition: transform 0.3s ease;
+}
+
+.opts-card:hover {
+    transform: translateY(-5px);
+}
+
+.opts-card h4 {
+    margin-top: -10px;
+}
+
+.opts-card h5 {
+    margin-top: -20px;
+}
+
+.settings {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content horizontally */
+    justify-content: top; /* Center content vertically */
+   
+    /* Positioning to center the settings div on the screen */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+   
+    /* Size of the settings div */
+    width: 600px;
+    height: 600px;
+
+    max-width: 95%;
+    max-height: 60%;
+    
+    /* Styling */
+    border: solid 1px #4d4d4d71;
+    background-color: #0112199a; /* Semi-transparent background */
+    box-shadow: 0 10px 12px rgba(0, 0, 0, 0.1);
+    color: white; /* Text color */
+    padding: 0px;
+    border-radius: 10px;
+    z-index: 10000; /* Ensure it's above all other elements */
+    
+    /* Initial hidden state */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none; /* Disable interaction when hidden */
+}
+
+.settings h1 {
+    color: #ff8c00;
+    margin-top: -17px;
+}
+
+.settings h2 {
+    color: #ff8c00;
+    font-size: 26px;
+    margin-top: 2px;
+}
+
+.settings.show {
+    opacity: 1;
+    pointer-events: auto; /* Enable interaction when visible */
+    visibility: visible;
+}
+
 /* Media query for aspect ratio */
-@media (max-aspect-ratio: 1/1.25) {
+@media (max-aspect-ratio: 1/1.35) {
+    .settings {
+        width: 400px;
+        height: 600px;
+    }
+
     .job-shop-section {
         flex-direction: column; /* Stack buttons vertically */
     }
@@ -224,10 +319,6 @@ body:hover::before {
         min-width: 95%;
         font-size: 32px;
         font-weight: bolder;
-    }
-
-    .game-container {
-        min-height: 150vh;
     }
 }
 
@@ -267,13 +358,9 @@ body:hover::before {
     z-index: 1000;
     top: 0px;
     left: 25px;
+    font-weight: 500;
 } 
 
 .money-count p {
     font-size: 24px;
-}
-
-#Workers-section p {
-    margin-top: -30px;
-    color: #011219;
 }

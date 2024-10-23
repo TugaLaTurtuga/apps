@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, 
     initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Gambling simulator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
     <link rel="icon" href="Images/Center.png" type="image/png" />
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/workersStyle.css">
@@ -14,19 +15,22 @@
         <p id="money-count">Money: $0.00</p>
     </div>
 
-    <img src="Images/Center.png" alt="Logo" class="top-right-icon" id="GCLogo"/>
+    <img src="Images/Center.png" alt="Logo" class="top-right-icon" id="GCLogo" onclick="SeeBank()"/>
     <h1>Work in progress</h1>
     <div class="game-container" id="job-clicker-section">
-        
+       
         <div class="clicker-section" id="clicker-section" style="display: block;">
             <h1>Your job</h1>
             <button class="earnMoney" onclick="earnMoney()">Work (Click to Earn)</button>
             <div class="job-shop-section" id="job-shop-section"></div>
         </div>
         <div class="clicker-section" id="Workers-section" style="display: none;">
-            <h1>Workers</h1>
-            <p id="total-mps">mps: 000</p>
+            <div id="workers-title">
+                <h1>Workers</h1>
+                <p id="total-mps" class="total-mps">mps: 000</p>
+            </div>
             <div class="games-grid" id="workers-grid">
+
             </div>
         </div>
 
@@ -34,7 +38,7 @@
     </div>
 
     <div class="game-container" id="games-section" style="display: block;">
-        <h1>Gambling center™</h1>
+        <h1>Gambling Centre™</h1>
        
         <h1 class="game-name">Poker</h1>
         <div class="games-grid" id="Poker">
@@ -64,26 +68,102 @@
 
     <div class="game-result"> <p id="game-result"></p> </div>
 
-    <div class="bottom-left-text" id="LoanDiv"> <p>Loans: -$1000</p></div>
-    <div class="bottom-right-text" id="salaryDiv"> <p>Salaries: -$1000</p></div>
+    <div class="bottom-left-text" id="loanDiv"> <p>Loans: -$___</p></div>
+    <div class="bottom-right-text" id="salaryDiv"> <p>Salaries: -$___</p></div>
+    <div class="top-right-text" id="depositsDiv"> <p>Deposits: $___</p></div>
 
     <div class="bottom-info">
-        <p id="loansPer">Loans: $NaN per ---s</p>
-        <p id="salariesPer">Salaries: $NaN per ---s</p>
+        <p id="loansPer">Loans: -$___ per __s</p>
+        <p id="salariesPer">Salaries: -$___ per __s</p>
     </div>
 
-    <div id="stats">
+    <div class="stats" id="stats">
         <!-- Stats will be put here by JavaScript -->
     </div>
 
-    <h2 style="
-    color: red;
-    font-size: 22px;
-    font-weight: 900;">
-    You may encounter problems with the saving system, please download gameData ever possible (ctrl + shift + d) and then to load the gameData (ctrl + shift + u)</h2>
-    <input type="file" id="fileInput" style="display:none;" />
+    <input type="file" id="fileInput" name="fileInput", style="display: none;"> <!-- for upload file -->
 
+    <div class="settings">
+        <h1>Bank</h1>
+        <div class="Globalbutton-container">
+            <button id="btn1" class="Globalbutton" onclick="ChangeBankView(true)">Loans</button>
+            <span class="Globalseparator">|</span>
+            <button id="btn2" class="Globalbutton" onclick="ChangeBankView(false)">Depos</button>
+        </div>
+
+        <div class="BankLoansDiv" id="BankLoansDiv">
+            <h2>Loans</h2>
+            <div class="opts-grid" id="LoansGrid">
+                <div class="opts-card">
+                    <h3>Opt 1</h3>
+                    <h4>Amount: $1000</h4>
+                    <h4>Interest: 4%</h4>
+                    <h4>Time: 12</h4>
+                    <input type="range" id="opts-depo-1" min="6" max="12" value="12" step="1" class="slider">
+                    <button id="btn" onclick="takeLoan(1000, 4, 12)">Take loan</button>
+                </div>
+                <div class="opts-card">
+                    <h3>Opt 2</h3>
+                    <h4>Amount: $1000</h4>
+                    <h4>Interest: 4%</h4>
+                    <h4>Time: 12</h4>
+                    <input type="range" id="opts-depo-1" min="6" max="12" value="12" step="1" class="slider">
+                    <button id="btn" onclick="takeLoan(1000, 4, 12)">Take loan</button>
+                </div>
+                <div class="opts-card">
+                    <h3>Opt 3</h3>
+                    <h4>Amount: $1000</h4>
+                    <h4>Interest: 4%</h4>
+                    <h4>Time: 12</h4>
+                    <input type="range" id="opts-depo-1" min="6" max="12" value="12" step="1" class="slider">
+                    <button id="btn" onclick="takeLoan(1000, 4, 12)">Take loan</button>
+                </div>
+                <div class="opts-card">
+                    <h3>Opt 4</h3>
+                    <h4>Amount: $1000</h4>
+                    <h4>Interest: 4%</h4>
+                    <h4>Time: 12</h4>
+                    <input type="range" id="opts-depo-1" min="6" max="12" value="12" step="1" class="slider">
+                    <button id="btn" onclick="takeLoan(1000, 4, 12)">Take loan</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="BankDepositsDiv" id="BankDepositsDiv" style="display: none;">
+            <h2>Long term deposits</h2>
+            <div class="opts-grid" id="DepositsGrid">
+                <div class="opts-card" id="opts-depo-1">
+                    <h3>Opt 1</h3>
+                    <h4>Amount: $1000</h4>
+                    <h4>Interest: 4%</h4>
+                    <h5>Type: compost</h5>
+                    <h4>Time: 12</h4>
+                    <input type="range" id="opts-depo-1" min="6" max="12" value="12" step="1" class="slider">
+                    <button id="btn" onclick="TakeLongTermDeposits(10000, 10, false, 1)">Take deposit</button>
+                </div>
+                <div class="opts-card" id="opts-depo-2">
+                    <button id="btn" onclick="TakeLongTermDeposits(1000, 4, false, 12)">Capital: $1000 interest: 4% interestType: compost time: 12 months</button>
+                </div>
+                <div class="opts-card" id="opts-depo-3">
+                    <button id="btn" onclick="TakeLongTermDeposits(1000, 4, false, 12)">Capital: $1000 interest: 4% interestType: compost time: 12 months</button>
+                </div>
+                <div class="opts-card" id="opts-depo-4">
+                    <button id="btn" onclick="TakeLongTermDeposits(1000, 4, true, 12)">Capital: $1000 interest: 4% interestType: simple time: 12 months</button>
+                </div>
+            </div>
+        </div>
+        <button class="closeBank" onclick="SeeBank()">Close</button>
+    </div>
+
+    <div class="stats">
+        <h2>Pre-Zeta</h2>
+        <h3>TugaLaTurtuga© 2024, GamblingCentre© 2024</h3>
+    </div>
+
+    <script src="js/Encoder.js"></script>
     <script src="js/GameSettings.js"></script>
+    <script src="js/Loans.js"></script>
+    <script src="js/SavingSystem.js"></script>
     <script src="js/MoneyScript.js"></script>
     <script src="js/GamesScript.js"></script>
     <script src="js/script.js"></script>

@@ -29,8 +29,6 @@ function playGame(game, level, gameButton) {
     }
     displayResult(wonOrLost, PrizeMoney);
 
-    ++amountOfTimesPlayed;
-
     gameButton.innerText = `Play for $${cost}`; // Reset button text
 }
 
@@ -72,7 +70,7 @@ function createGamesSection() {
                     return; // Exit the function early if not enough money
                 }
                 totalMoneyGambled += level.cost;
-                ++amountOfTimesPlayed;
+                ++amountOfTimesGambled;
 
                 // Check if enough time has passed since last play
                 if (currentTime - gameButton.lastPlayTime >= cooldownTime) {

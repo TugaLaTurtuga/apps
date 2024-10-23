@@ -56,6 +56,61 @@ function initializeSliders() {
     });
 }
 
+
+
+function SeeBank() {
+    const settingsElement = document.querySelector('.settings');
+    if (settingsElement.classList.contains('show')) {
+        settingsElement.classList.remove('show');
+        
+        // Delay changing visibility until after the opacity transition
+        setTimeout(() => {
+            settingsElement.classList.add('hide');
+        }, 300); // 300ms matches the CSS transition duration for opacity
+    } else {
+        settingsElement.classList.remove('hide');
+        settingsElement.classList.add('show');
+    }
+
+    const buttons = document.querySelectorAll('.Globalbutton');
+    if (!Array.from(buttons).some(button => button.classList.contains('highlight'))) {
+        buttons[0].classList.add('highlight');
+    }
+}
+
+function ChangeBankView(View=null) {
+    const buttons = document.querySelectorAll('.Globalbutton');
+    let HightlightedBtn = null
+
+    if (View) { // loan
+        buttons.forEach(button => button.classList.remove('highlight')); 
+        buttons[0].classList.add('highlight');
+        HightlightedBtn = true;
+    } else if (!View) { // deposit
+        buttons.forEach(button => button.classList.remove('highlight')); 
+        buttons[1].classList.add('highlight');
+        HightlightedBtn = false;
+    } else {
+        if (buttons[0].classList.contains('highlight')) {
+            buttons.forEach(button => button.classList.remove('highlight')); 
+            buttons[1].classList.add('highlight');
+            HightlightedBtn = false;
+        } else {
+            buttons.forEach(button => button.classList.remove('highlight')); 
+            buttons[0].classList.add('highlight');
+            HightlightedBtn = true;
+        }
+    }
+
+    if (HightlightedBtn) {
+        document.getElementById('BankLoansDiv').style.display = 'block';
+        document.getElementById('BankDepositsDiv').style.display = 'none';
+    } else {
+        document.getElementById('BankLoansDiv').style.display = 'none';
+        document.getElementById('BankDepositsDiv').style.display = 'block';
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const roles = [
         { name: "autoclicker", label: "Auto clicker" },
@@ -85,11 +140,11 @@ document.addEventListener('DOMContentLoaded', () => {
         roleCount.id = `Amount of workers in ${role.name}`;
         roleCount.innerText = `Workers: ${Count[role.name]}`;
 
-        const currentSalary = jobSalary[role.name];
+        const currentSalary = jobSalary[role.name].toFixed(2);
         const currentPerformance = Math.round(performance[role.name] * 100);
 
         const currentSalaryText = document.createElement('h3');
-        currentSalaryText.innerText = `Current salary: $${jobSalary[role.name].toFixed(2)}`;
+        currentSalaryText.innerText = `Current salary: $${(currentSalary * Count[role.name]).toFixed(2)}`;
 
         const currentPerformanceText = document.createElement('h3');
         currentPerformanceText.innerText = `Current performance: ${currentPerformance}%`;
@@ -100,11 +155,11 @@ document.addEventListener('DOMContentLoaded', () => {
         salarySlider.min = "0.3";
         salarySlider.max = "1.5";
         salarySlider.step = "0.01";
-        salarySlider.value = "1";
+        salarySlider.value = performance[role.name];
         salarySlider.className = "slider";
 
         const newSalaryDisplay = document.createElement('h3');
-        newSalaryDisplay.innerText = `New salary: $${salaries[role.name].perfectSalary.toFixed(2)}`;
+        newSalaryDisplay.innerText = `New salary: $${currentSalary * Count[role.name]}`;
 
         const newPerformanceDisplay = document.createElement('h3');
         newPerformanceDisplay.innerText = `New performance: ${currentPerformance}%`;
@@ -117,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const newSalary = worstSalary + (perfectSalary - worstSalary) * sliderValue;
             const newPerformance = Math.max(0.2, sliderValue);
 
-            newSalaryDisplay.innerText = `New salary: $${newSalary.toFixed(2)}`;
+            newSalaryDisplay.innerText = `New salary: $${(newSalary * Count[role.name]).toFixed(2)}`;
             newPerformanceDisplay.innerText = `New performance: ${(newPerformance * 100).toFixed(0)}%`;
         };
 
@@ -126,13 +181,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const worstSalary = salaries[role.name].worstSalary;
         jobSalary[role.name] = worstSalary + (perfectSalary - worstSalary) * sliderValue;
         performance[role.name] = Math.max(0.2, sliderValue);
-        currentSalaryText.innerText = `Current salary: $${jobSalary[role.name].toFixed(2)}`;
+        currentSalaryText.innerText = `Current salary: $${(jobSalary[role.name] * Count[role.name]).toFixed(2)}`;
         currentPerformanceText.innerText = `Current performance: ${(performance[role.name] * 100).toFixed(0)}%`;
         updateIncome();
 
         const saveButton = document.createElement('button');
         saveButton.innerText = "Save changes";
-        saveButton.disabled = false;
 
         saveButton.onclick = () => {
             const sliderValue = parseFloat(salarySlider.value);
@@ -140,20 +194,22 @@ document.addEventListener('DOMContentLoaded', () => {
             const worstSalary = salaries[role.name].worstSalary;
 
             jobSalary[role.name] = worstSalary + (perfectSalary - worstSalary) * sliderValue;
-            performance[role.name] = Math.max(0.2, sliderValue);
+            performance[role.name] = sliderValue;
 
-            currentSalaryText.innerText = `Current salary: $${jobSalary[role.name].toFixed(2)}`;
+            currentSalaryText.innerText = `Current salary: $${(jobSalary[role.name] * Count[role.name]).toFixed(2)}`;
             currentPerformanceText.innerText = `Current performance: ${(performance[role.name] * 100).toFixed(0)}%`;
 
-            saveButton.disabled = true;
             calculateTotalSalary();
             updateIncome();
+            saveGameData();
         };
 
-        salarySlider.onchange = function () {
-            saveButton.disabled = false;
-        };
+        const mpsText = document.createElement('h3');
+        mpsText.id = `mps in ${role.name}`;
+        mpsText.innerText = `mps: $500.00`;
 
+        workerCard.appendChild(mpsText);
+        mpsText.className = "hhhh3"
         workerCard.appendChild(roleTitle);
         workerCard.appendChild(roleCount);
         roleCount.className = "hhh3"
@@ -181,4 +237,10 @@ document.addEventListener('DOMContentLoaded', () => {
     AnalystSlider = document.getElementById('AnalystSlider');
     ManagerSlider = document.getElementById('ManagerSlider');
     initializeSliders();
+
+    document.addEventListener('keydown', function(event) {
+        if ((event.ctrlKey || event.metaKey) && event.code === 'KeyB' || event.code === 'KeyL') {
+            SeeBank();
+        }
+    });
 });

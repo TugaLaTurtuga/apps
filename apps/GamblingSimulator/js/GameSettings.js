@@ -1,6 +1,14 @@
 let amountOfTimesGambled = 0;
 let totalMoneyGambled = 0;
 let totalMoneyWonOnGambling = 0;
+let playerBalance = 0;
+let totalEarned = 0;
+let totalLoansValue = 0;
+let payingLoan = false;
+let loanInterval = 0;
+let remainingLoanValue = 0;
+let remainingLoanTime = 0;
+let loanInterest = 0;
 
 const games = {
     poker: [
@@ -262,31 +270,31 @@ let performance = {
 
 let jobCosts = {
     autoclicker: 50,
-    freelancer: 200,
-    assistant: 1000,
-    developer: 5000,
-    consultant: 100000,
-    designer: 15000,
-    analyst: 25000,
-    manager: 50000,
-    company: 100000,
-    realestate: 500000,
-    enterprise: 1000000,
-    factory: 15237358
+    freelancer: 500,
+    assistant: 2500,
+    developer: 7500,
+    consultant: 12500,
+    designer: 25000,
+    analyst: 50000,
+    manager: 100000,
+    company: 500000,
+    realestate: 1000000,
+    enterprise: 7500000,
+    factory: 1250000
 };
 
 let jobIncome = {
-    autoclicker: 1,
-    freelancer: 5,
-    assistant: 10,
-    developer: 30,
-    consultant: 60,
-    designer: 100,
-    analyst: 150,
-    manager: 200,
-    company: 20,
-    realestate: 50,
-    enterprise: 100,
+    autoclicker: .5,
+    freelancer: 1,
+    assistant: 2.5,
+    developer: 5,
+    consultant: 10,
+    designer: 25,
+    analyst: 50,
+    manager: 100,
+    company: 150,
+    realestate: 200,
+    enterprise: 350,
     factory: 500
 };
 

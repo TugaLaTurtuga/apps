@@ -1,14 +1,14 @@
 .worker-card {
     aspect-ratio: 1;
-    min-height: 85%;
-    min-width: 85%;
-    max-height: 85%;
-    max-width: 85%;
+    min-height: 90%;
+    min-width: 90%;
+    max-height: 98%;
+    max-width: 98%;
     background-color: #01222b;
     padding: 10px;
     border-radius: 10px;
     margin: 0px;
-    box-shadow: 0 8px 6px rgba(0, 0, 0, 0.568);
+    box-shadow: 0 8px 6px rgba(0, 0, 0, 0.305);
     text-align: center;
     max-width: 250px;
     transition: transform 0.3s ease;
@@ -117,6 +117,12 @@ h3 {
     margin-top: -23px;
 }
 
+.hhhh3 {
+    color: #ccc;
+    margin-top: 0px;
+    margin-bottom: -15px;
+}
+
 .top-right-icon {
     top: 0;
     right: 0;
@@ -128,6 +134,25 @@ h3 {
 
 .top-right-icon:hover {
     cursor: pointer;
+}
+
+.top-right-text {
+    position:fixed;
+    z-index: 1000;
+    top: 25px;
+    right: 25px;
+    opacity: 0;
+    transform: translateX(250px);
+    transition: opacity 0.5s ease, transform .7s ease;
+
+    color: green;
+    font-size: 24px;
+    font-weight: 900;
+}
+
+.top-right-text.show {
+    opacity: 1;
+    transform: translateX(0px);
 }
 
 .bottom-left-text {
@@ -195,13 +220,13 @@ h3 {
     font-weight: 900;
 }
 
-#stats p {
+.stats p {
     padding-left: 15px;
     text-align: left;
     color: #ccc;
 }
 
-#stats {
+.stats {
     position: relative;
     margin-top: 20px;
     align-items: center;
@@ -235,4 +260,76 @@ h3 {
 
 #btn:hover {
     background-color: #015261;
+}
+
+#total-mps {
+    margin-top: -30px;
+    color: #ccc;
+}
+
+#workers-title {
+    box-shadow: 10px 10px 6px rgba(0, 0, 0, 0.086);
+}
+
+.Globalbutton-container {
+    display: flex;
+    margin-left: 0%;
+    margin-top: -20px;
+    margin-bottom: 5px;
+    align-items: center;
+    font-family: 'Radio Canada', sans-serif; 
+    min-width: 150px; /* Adjusted for better visibility */
+    min-height: 35px;
+    border-radius: 25px; /* Adjusted for visual effect */
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(31, 16, 16, 0.2);
+    background-color: #023c4a; /* Background for the container */
+}
+
+.Globalbutton {
+    flex: 1;
+    font-family: 'Radio Canada', sans-serif;
+    padding: 10px 15px;
+    border: none;
+    background-color: #023c4a;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 25px;
+    position: relative;
+    z-index: 1;
+    transition: background-color 0.3s, color 0.3s;
+    box-shadow: none;
+}
+
+.Globalbutton:hover {
+    background-color: #01121973; /* Light color on hover */
+    color: rgb(0, 0, 0); /* Darker text color on hover */
+}
+
+.Globalbutton.highlight {
+    background-color: #01121948; /* Highlight color */
+    color: rgb(0, 0, 0); /* Highlight text color */
+}
+
+.Globalseparator {
+    font-size: 20px;
+    font-family: 'Radio Canada', sans-serif;
+    line-height: 1;
+    padding: 0 0;
+    color: rgb(0, 0, 0); /* Default color of the separator */
+    background-color: #023c4a;
+}
+
+.closeBank {
+    margin-top: auto;
+    margin-bottom: 10px;
+    bottom: 0px;
+    padding: 5px;
+    background-color: rgba(255, 0, 0, 1);
+    font-weight: 800;
+    
+    border: solid black 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 18px;
 }

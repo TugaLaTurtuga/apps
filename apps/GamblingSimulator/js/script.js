@@ -2,18 +2,33 @@ let incomePerSecond = 0;
 let clickPower = 1;
 let IsPayingsalaries = false;
 
+performance
+
 // Updates money and job shop section
 window.onload = () => {
     createJobShop();
     createGamesSection();
     startPassiveIncome();
-    calculatePerformance();
     calculateTotalSalary();
-
-    document.addEventListener('keydown', function(event) {
-        seeWorkersBtn();
-    });
+    calculatejobHeight();
+    UpdateWorkersNumber();
 };
+
+function SeeSettings() {
+    const settingsElement = document.querySelector('.settings');
+
+    if (settingsElement.classList.contains('show')) {
+        settingsElement.classList.remove('show');
+    
+        // Delay changing visibility until after the opacity transition
+        setTimeout(() => {
+            settingsElement.classList.add('hide');
+        }, 300); // 300ms matches the CSS transition duration for opacity
+    } else {
+        settingsElement.classList.remove('hide');
+        settingsElement.classList.add('show');
+    }
+}
 
 // Clicking to earn money
 function earnMoney() {
@@ -57,51 +72,83 @@ function buyJob(job) {
     IsPayingsalaries = true;
     saveGameData();
     calculateTotalSalary(); // update the salary per s
+    calculatejobHeight();
+    UpdateWorkersNumber();
 }
 
 // Function to update the income per second based on performance
 function updateIncome() {
     incomePerSecond = 0;
     for (let job in Count) {
-        incomePerSecond += Count[job] * jobIncome[job] * performance[job];
+        mpsInJob = Count[job] * jobIncome[job] * performance[job];
+        incomePerSecond += mpsInJob;
+        const mpsInJobText = document.getElementById(`mps in ${job}`);
+        if (mpsInJobText) {
+            mpsInJobText.innerText = `mps: $${mpsInJob.toFixed(2)}`;
+        }
+    }
+    if (incomePerSecond != 0) {
+        document.getElementById('total-mps').innerText = `mps: $${incomePerSecond.toFixed(2)}`;
+        IsPayingsalaries = true;
+    }
+}
+
+// Calculate performance based on salary
+let firstTime = true;
+function UpdateWorkersNumber() {
+    for (let job in jobSalary) {
+        const roleCount = document.getElementById(`Amount of workers in ${job}`);
+        if (roleCount) {
+            roleCount.innerText = `Workers: ${Count[job]}`;
+        } if (Count[job] > 0 && firstTime) {
+            seeWorkersBtn();
+            seeWorkersBtn();
+            firstTime = false;
+        }
     }
 }
 
 const sw = document.getElementById("seeWorkers");
-// Calculate performance based on salary
-function calculatePerformance() {
-    for (let job in jobSalary) {
-        if (jobSalary[job] < salaries[job].perfectSalary) {
-            performance[job] = jobSalary[job] / salaries[job].perfectSalary;  // Decrease performance if underpaid
+const gameContainer = document.getElementById("clicker-section");
+function calculatejobHeight() {
+    if (!IsSeingWorkers) {
+        let js = document.getElementById("job-shop-section");
+
+        // Use offsetHeight to get the rendered height of the element
+        let jsHeight = js.offsetHeight || 200;
+        let swHeight = 100;
+        let totalHeight = 0;
+
+        // Use getComputedStyle to check the applied flex-direction
+        let computedStyle = window.getComputedStyle(js);
+        let flexDirection = computedStyle.flexDirection;
+
+        if (flexDirection === "column") {
+            totalHeight = swHeight + jsHeight + 520;
         } else {
-            performance[job] = 1 + (jobSalary[job] - salaries[job].perfectSalary) / salaries[job].perfectSalary;  // Bonus performance if overpaid
+            totalHeight = swHeight + jsHeight + 300;
         }
 
-        // Update workers count in the workers grid
-        const roleCount = document.getElementById(`Amount of workers in ${job}`);
-        if (roleCount) {
-            roleCount.innerText = `Workers: ${Count[job]}`;
-        } if (Count[job] > 0) {
-            sw.style.display = "block";
-        }
+        // Set the gameContainer height
+        gameContainer.style.height = `${totalHeight}px`;
     }
-    updateIncome();  // Recalculate income based on new performance values
 }
+
+window.addEventListener('resize', () => {
+    calculatejobHeight();
+});
 
 let IsSeingWorkers = false;
 function seeWorkersBtn() {
-    const gameContainer = document.getElementById("job-clicker-section");
-
-    sw.style.display = "block";
-    gameContainer.style.height = "auto";
+    sw.style.display = 'block'
     document.getElementById("seeWorkers").onclick = () => { 
         window.scrollTo(0, 50);
         if (IsSeingWorkers) {
             document.getElementById("clicker-section").style.display = "block";
             document.getElementById("Workers-section").style.display = "none";
             sw.innerText = 'See Workers';
-            gameContainer.style.height = "auto";
             IsSeingWorkers = false;
+            calculatejobHeight();
         } else {
             document.getElementById("clicker-section").style.display = "none";
             document.getElementById("Workers-section").style.display = "block";
@@ -127,11 +174,10 @@ function calculateTotalSalary() {
     let totalSalary = 0;
     for (let job in Count) {
         totalSalary += Count[job] * jobSalary[job];
+    } if (totalSalary !== 0) {
+        document.getElementById("salariesPer").innerText = `Salaries: -$${totalSalary.toFixed(2)} per ${TimeToPaySalaries}s`;
     }
-
-    document.getElementById("salariesPer").innerText = `Salaries: $${totalSalary.toFixed(2)} per ${TimeToPaySalaries}s`;
-
-    return totalSalary; // Total salary to be paid each cycle
+    return totalSalary;
 }
 
 const TimeToPaySalaries = 100;
@@ -139,54 +185,38 @@ let TimeUntilPayingSalaries = 0;
 const salaryDiv = document.getElementById("salaryDiv");
 function startPassiveIncome() {
     setInterval(() => {
-        addMoney(incomePerSecond); // Increment player's balance by income
-        document.getElementById('total-mps').innerText = `mps: $${incomePerSecond.toFixed(2)}`;
+        if (!isNaN(playerBalance)) {
+            addMoney(incomePerSecond); // Increment player's balance by income
 
-        if (TimeUntilPayingSalaries >= TimeToPaySalaries) {
-            const totalSalary = calculateTotalSalary(); // Calculate the total salary to pay
+            if (TimeUntilPayingSalaries >= TimeToPaySalaries) {
+                const totalSalary = calculateTotalSalary();
+                
+                if (!deductMoney(totalSalary, true)) {
+                    console.log('Not enough money for salaries, taking loan');
+                    takeLoan(playerBalance * -2, 4, 12);
+                } else {
+                    console.log(`Paid salaries: $${totalSalary}`);
+                }
+                TimeUntilPayingSalaries = 0;
 
-            if (!deductMoney(totalSalary)) {
-                console.log('Not enough money for salaries, taking loan');
-                takeLoan(playerBalance * -1.2, 12, 4);
-            } else {
-                console.log(`Paid salaries: $${totalSalary}`);
+                salaryDiv.innerText = `Salaries: -$${totalSalary.toFixed(2)}`;
+                salaryDiv.classList.add('show');
+                setTimeout(() => {
+                    salaryDiv.classList.remove('show');
+                }, 1500);
             }
-            TimeUntilPayingSalaries = 0; // Reset the counter after paying salaries
 
-            salaryDiv.innerText = `Salaries: -$${totalSalary.toFixed(2)}`;
-            salaryDiv.classList.add('show');
-            setTimeout(() => {
-                salaryDiv.classList.remove('show');
-            }, 1500);
-        }
+            if (IsPayingsalaries) {
+                TimeUntilPayingSalaries++;
+            }
+            clickPower = 1 + incomePerSecond * 0.01;
+        } else {
 
-        if (IsPayingsalaries) {
-            TimeUntilPayingSalaries++;
         }
-        calculatePerformance(); // Update performance based on the current salary
-        clickPower = 1 + incomePerSecond * 0.01;
     }, 1000); // Every second
 }
 
 // Utility function to capitalize first letter
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-// Add a function to handle salary updates based on slider values
-function updateSalaryAndPerformance(role, sliderValue) {
-    const perfectSalary = salaries[role].perfectSalary;
-    const worstSalary = perfectSalary * 0.5;  // Assuming worst salary is half of perfect
-
-    // Calculate the new salary based on the slider's position
-    const salary = worstSalary + (perfectSalary - worstSalary) * sliderValue; // Interpolate between worst and perfect salary
-    const performance = 1 - (0.8 * (1 - sliderValue)); // Maps slider value 1 to max performance
-
-    // Update the displayed values in the UI
-    document.querySelector(`#${role}Slider + p`).innerText = `New salary: $${Math.round(salary)}`;
-    document.querySelector(`#${role}Slider + p:nth-of-type(2)`).innerText = `New performance: ${Math.round(performance * 100)}%`;
-
-    jobSalary[role] = salary;
-    performance[role] = performance;
-    calculatePerformance(); // Recalculate performance
 }
